@@ -1,9 +1,5 @@
 const cs       = document.getElementById('canvas');
 const ctx      = cs.getContext('2d');
-// var csWidth  = cs.width;
-// var csHeight = cs.height;
-// var csWidth  = 300;
-// var csHeight = 300;
 
 cs.width = 300;
 cs.height = 300;
@@ -20,7 +16,6 @@ var startTime = new Date().getTime();
 var getTimer = function() {
   return (new Date().getTime() - startTime);
 };
-
 
 /* ﾃｨｳﾝﾃｨｳﾝﾃｨｳﾝ...コンストラクタ */
 var ThiwnThiwn = function() {

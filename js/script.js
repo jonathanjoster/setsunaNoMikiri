@@ -2,6 +2,8 @@ let wowAppearing;
 let time;
 let playing;
 let enemyCount = 0;
+let dio = false;
+let bgColor = 'linear-gradient(rgba(121, 76, 47, 0.8), rgba(255,0,0,0) 60%)';
 const textArea = document.getElementById('text-area');
 const wow = document.getElementById('wow');
 
@@ -12,11 +14,21 @@ const enemyData = [
   ['fake', 1000],
   ['galaxy', 800],
   ['jewel', 500],
+  ['concrete', 400],
 ];
 
 function gameOver(msg) {
   if (msg !== 'ok') {
-    textArea.innerText = msg;
+    textArea.innerHTML = `<big>${msg}</big>`;
+  }
+  if (msg === 'too fast' || msg === 'time over') {
+    // megaman twntwntwn
+    document.querySelector('#canvas').style.left = '-620px';
+    var circles = createCircle(csWidth/2, csHeight/2, 45);
+    setTimeout(function() {
+      render(circles);
+    }, 100);
+    document.querySelector('#mega').style.opacity = 0;
   }
   clearTimeout(timeOverID);
   clearTimeout(timerID);
@@ -26,10 +38,12 @@ function gameOver(msg) {
 function showWow() {
   wow.style.visibility = 'initial';
   wowAppearing = true;
+  document.body.style.background = 'white';
+  setTimeout(() => {
+    document.body.style.background = bgColor;
+  }, 50);
   time = (new Date()).getTime();
 }
-
-
 
 /**
 * after '!' appeared, push space key
@@ -37,27 +51,24 @@ function showWow() {
 * @return {boolean} whether player won or lost
 */
 function mikitta(key) {
-  if (key === ' ' && playing) {
-    if (wowAppearing) {
+  if (playing) {
+    if (wowAppearing || dio) {
       gameOver('ok');
       time -= (new Date()).getTime();
       textArea.innerHTML =
-        '<big>Gotcha</big><br>Time: ' +
-        -time/1000 + '[s]' +
-        ' <' + enemyData[enemyCount][1]/1000;
-
-      // twntwntwn
+        `<big>Gotcha</big><br>Time: ${-time/1000}[s]
+        < ${enemyData[enemyCount][1]/1000}`;
+      
+      // enemy twntwntwn
       var circles = createCircle(csWidth/2, csHeight/2, 45);
       setTimeout(function() {
-          render(circles);
+        render(circles);
       }, 100);
       document.querySelectorAll('.enemy')[enemyCount].style.opacity = 0;
-
-      return true;
+    } else {
+      gameOver('too fast');  
     }
-    gameOver('too fast');  
   }
-  return false;
 }
 
 function setsunaNoMikiri() {
@@ -78,15 +89,8 @@ function setsunaNoMikiri() {
   console.log(`delay:${delay}, enemyWaitTime:${enemyWaitTime}`);
 
   window.addEventListener('keydown', e => {
-    if (mikitta(e.key)) {
-      switch (enemyCount) {
-        case 0:
-          document.querySelectorAll('span.lost-show').forEach(el => {
-            el.style.visibility = 'initial';
-          });
-          break;
-        default: break;
-      }
+    if (e.key === ' ') {
+      mikitta();
     }
   });
 }
@@ -102,6 +106,25 @@ function nextStep() {
     setsunaNoMikiri();
   }
 }
+function init() {
+  document.querySelector('#mega').style.opacity = 1;
+  document.querySelector('#canvas').style.left = '-80px';
+}
 document.getElementById('next').addEventListener('click', nextStep);
-window.addEventListener('keydown', e => { if (e.key === 'n') { nextStep(); } });
-window.addEventListener('keydown', e => { if (e.key === 'r') { enemyCount=-1; nextStep(); } });
+window.addEventListener('keydown', e => {
+  if (e.key === 'n') {
+    nextStep();
+    init();
+  } else if (e.key === 'r') {
+    for (let i=0; i<enemyData.length; i++) {
+      document.querySelectorAll('.enemy')[i].style.opacity = 1;
+    }
+    document.querySelectorAll('.enemy')[enemyCount].style.visibility = 'hidden';
+    enemyCount=-1; nextStep();
+    init();
+  } else if (e.key === 'v') {
+    dio = true;
+    document.body.style.background = 'gold';
+    mikitta();
+  }
+});
