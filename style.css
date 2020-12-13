@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Bangers", cursive;
+}
+* body {
+  height: 100vh;
+  background: linear-gradient(rgba(121, 76, 47, 0.8), rgba(255, 0, 0, 0) 60%);
+}
+* body big {
+  font-size: 3rem;
+}
+
+.belt {
+  background: black;
+  height: 50vh;
+  width: 100vw;
+  transition: height 300ms ease 2000ms;
+}
+.belt h1 {
+  /* color: white; */
+  text-align: center;
+  font-size: 10vh;
+  line-height: 20vh;
+  text-shadow: 1px 1px gold, 2px 2px gold, 3px 3px gold;
+  position: relative;
+  top: 30vh;
+  transition: top 300ms ease 2000ms;
+}
+
+.bottom-black {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+.bottom-black .loading-line {
+  height: 1px;
+  background: white;
+  width: 1px;
+  transition: width 2000ms linear;
+}
+.bottom-black .bottom-description {
+  color: white;
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+.contents {
+  position: relative;
+  height: 40vh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.contents #wow {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  font-size: 3rem;
+  color: red;
+  text-align: center;
+  visibility: hidden;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.contents #canvas {
+  position: absolute;
+  left: -80px;
+  top: -50px;
+}
+
+.aa {
+  width: 200px;
+  height: 200px;
+  transition: opacity 200ms ease;
+}
+.aa img {
+  width: 100%;
+}
+
+#mega {
+  position: relative;
+  left: 20px;
+}
+
+.enemy-wrapper {
+  position: relative;
+  right: 20px;
+}
+.enemy-wrapper .enemy {
+  position: absolute;
+  visibility: hidden;
+}
+.enemy-wrapper #santa {
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  left: 30%;
+}
+
+#text-area {
+  height: 15vh;
+  text-align: center;
+  letter-spacing: 2px;
+  transition: all 100ms;
+  position: relative;
+  top: 0.1rem;
+  opacity: 0;
+}
+
+.btn-wrapper {
+  height: 5vh;
+  text-align: center;
+}
+.btn-wrapper #next {
+  transition: opacity 100ms, top 100ms;
+  transition-delay: 400ms;
+  position: relative;
+  top: -0.5rem;
+  opacity: 0;
+}
+.btn-wrapper #next:focus {
+  outline: none;
+}
