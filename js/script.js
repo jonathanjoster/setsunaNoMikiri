@@ -6,7 +6,7 @@ let dio = false;
 let bgColor = 'linear-gradient(rgba(121, 76, 47, 0.8), rgba(255,0,0,0) 60%)';
 const textArea = document.getElementById('text-area');
 const wow = document.getElementById('wow');
-// const audio = document.querySelector('audio');
+const audio = document.querySelector('audio');
 const loadingTime = 2000;
 
 let timerID;
@@ -17,10 +17,12 @@ const enemyData = [
   ['galaxy', 800],
   ['jewel', 500],
   ['concrete', 400],
+  ['meta', 200],
+  ['giygas', 150]
 ];
 
 function gameOver(msg) {
-  if (msg === 'too fast' || msg === 'time over') {
+  if (msg === 'too fast' || msg === 'too slow') {
     // megaman twntwntwn
     document.querySelector('#canvas').style.left = '-620px';
     var circles = createCircle(csWidth/2, csHeight/2, 45);
@@ -31,7 +33,7 @@ function gameOver(msg) {
     document.querySelector('#mega').style.opacity = 0;
   }
   // if arg[1], next btn disabled
-  showMessage(msg, msg==='too fast'||msg==='time over');
+  showMessage(msg, msg==='too fast'||msg==='too slow');
   clearTimeout(timeOverID);
   clearTimeout(timerID);
   playing = false;
@@ -42,7 +44,11 @@ function showWow() {
   wowAppearing = true;
   document.body.style.background = 'white';
   setTimeout(() => {
-    document.body.style.background = bgColor;
+    if (enemyCount < enemyData.length-1) {
+      document.body.style.background = bgColor;
+    } else {
+      document.body.style.background = 'url("img/giygas.png")';
+    }
   }, 50);
   time = (new Date()).getTime();
 }
@@ -77,18 +83,24 @@ function setsunaNoMikiri() {
   if (enemyCount) {
     document.getElementById(enemyData[enemyCount-1][0]).style.visibility = 'hidden';
   }
-  document.getElementById(enemyData[enemyCount][0]).style.visibility = 'inherit';
+  if (enemyCount < enemyData.length-1) {
+    document.getElementById(enemyData[enemyCount][0]).style.visibility = 'inherit';
+  } else {
+    document.body.style.background = 'url("img/giygas.png")';
+    document.querySelector('#text-area').style.color = 'white';
+  }
 
   // textArea.innerHTML = '';
   hideMessage();
   wow.style.visibility = 'hidden';
   wowAppearing = false;
 
-  const delay = Math.random()*1000 * .5; // delay time. change this
+  // 3+1000
+  const delay = Math.random()*1000 * 3+1000; // delay time. change this
   timerID = setTimeout(showWow, delay);
   const enemyWaitTime = enemyData[enemyCount][1];
-  timeOverID = setTimeout(gameOver, delay+enemyWaitTime, 'time over');
-  console.log(`delay:${delay}, enemyWaitTime:${enemyWaitTime}`);
+  timeOverID = setTimeout(gameOver, delay+enemyWaitTime, 'too slow');
+  console.log(`delay:${Math.round(delay)}[ms], enemyWaitTime:${enemyWaitTime}`);
 
   window.addEventListener('keydown', e => {
     if (e.key === ' ' && playing) {
