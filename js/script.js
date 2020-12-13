@@ -6,6 +6,8 @@ let dio = false;
 let bgColor = 'linear-gradient(rgba(121, 76, 47, 0.8), rgba(255,0,0,0) 60%)';
 const textArea = document.getElementById('text-area');
 const wow = document.getElementById('wow');
+// const audio = document.querySelector('audio');
+const loadingTime = 2000;
 
 let timerID;
 let timeOverID;
@@ -18,18 +20,18 @@ const enemyData = [
 ];
 
 function gameOver(msg) {
-  if (msg !== 'ok') {
-    textArea.innerHTML = `<big>${msg}</big>`;
-  }
   if (msg === 'too fast' || msg === 'time over') {
     // megaman twntwntwn
     document.querySelector('#canvas').style.left = '-620px';
     var circles = createCircle(csWidth/2, csHeight/2, 45);
     setTimeout(function() {
       render(circles);
+      audio.play();
     }, 100);
     document.querySelector('#mega').style.opacity = 0;
   }
+  // if arg[1], next btn disabled
+  showMessage(msg, msg==='too fast'||msg==='time over');
   clearTimeout(timeOverID);
   clearTimeout(timerID);
   playing = false;
@@ -51,23 +53,22 @@ function showWow() {
 * @return {boolean} whether player won or lost
 */
 function mikitta(key) {
-  if (playing) {
-    if (wowAppearing || dio) {
-      gameOver('ok');
-      time -= (new Date()).getTime();
-      textArea.innerHTML =
-        `<big>Gotcha</big><br>Time: ${-time/1000}[s]
-        < ${enemyData[enemyCount][1]/1000}`;
-      
-      // enemy twntwntwn
-      var circles = createCircle(csWidth/2, csHeight/2, 45);
-      setTimeout(function() {
-        render(circles);
-      }, 100);
-      document.querySelectorAll('.enemy')[enemyCount].style.opacity = 0;
-    } else {
-      gameOver('too fast');  
-    }
+  if (wowAppearing || dio) {
+    time -= (new Date()).getTime();
+    gameOver(
+      `<big>Gotcha</big><br>
+      Time: ${-time/1000}[s]
+      < ${enemyData[enemyCount][1]/1000}`);
+    
+    // enemy twntwntwn
+    var circles = createCircle(csWidth/2, csHeight/2, 45);
+    setTimeout(function() {
+      render(circles);
+      audio.play();
+    }, 100);
+    document.querySelectorAll('.enemy')[enemyCount].style.opacity = 0;
+  } else {
+    gameOver('too fast');  
   }
 }
 
@@ -78,7 +79,8 @@ function setsunaNoMikiri() {
   }
   document.getElementById(enemyData[enemyCount][0]).style.visibility = 'inherit';
 
-  textArea.innerHTML = '';
+  // textArea.innerHTML = '';
+  hideMessage();
   wow.style.visibility = 'hidden';
   wowAppearing = false;
 
@@ -89,12 +91,12 @@ function setsunaNoMikiri() {
   console.log(`delay:${delay}, enemyWaitTime:${enemyWaitTime}`);
 
   window.addEventListener('keydown', e => {
-    if (e.key === ' ') {
+    if (e.key === ' ' && playing) {
       mikitta();
     }
   });
 }
-setsunaNoMikiri();
+setTimeout(setsunaNoMikiri, loadingTime);
 
 
 

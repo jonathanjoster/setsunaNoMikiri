@@ -12,6 +12,8 @@ html(lang="en")
     div.belt
       h1 Samurai Slash
 
+    audio(src="twn.wav" preload="auto")
+
     div.contents
       div#mega.aa
         img(src="img/megaman.gif")
@@ -38,9 +40,12 @@ html(lang="en")
     
     div#text-area
     div.btn-wrapper
-      button#next next
+      button#next(disabled) next
 
     div.belt.bottom-black
+      .loading-line
+      p.bottom-description After "!!!" appeared, press ENTER asap.
 
     script(src="js/script.js")
     script(src="js/twntwntwn.js")
+    script(src="js/view.js")

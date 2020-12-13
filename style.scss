@@ -12,10 +12,12 @@
   }
 }
 
+$loadingTime: 2000ms;
 .belt {
   background: black;
-  height: 20vh;
+  height: 50vh;
   width: 100vw;
+  transition: height 300ms ease $loadingTime;
   h1 {
     /* color: white; */
     text-align: center;
@@ -25,11 +27,26 @@
     1px 1px gold,
     2px 2px gold,
     3px 3px gold;
+    position: relative;
+    top: 30vh;
+    transition: top 300ms ease $loadingTime;
   }
 }
 .bottom-black {
   position: absolute;
   bottom: 0;
+  text-align: center;
+  .loading-line {
+    height: 1px;
+    background: white;
+    width: 1px;
+    transition: width $loadingTime linear;
+  }
+  .bottom-description {
+    color: white;
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
 }
 
 .contents {
@@ -98,12 +115,21 @@ $aaMargin: 20px;
   height: 15vh;
   text-align: center;
   letter-spacing: 2px;
+  transition: all 100ms;
+  position: relative;
+  top: .1rem;
+  opacity: 0;
 }
 
 .btn-wrapper {
   height: 5vh;
   text-align: center;
   #next {
+    transition: opacity 100ms, top 100ms;
+    transition-delay: 400ms;
+    position: relative;
+    top: -.5rem;
+    opacity: 0;
     &:focus {
       outline: none;
     }
