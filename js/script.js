@@ -17,8 +17,8 @@ const enemyData = [
   ['galaxy', 800],
   ['jewel', 500],
   ['concrete', 400],
-  ['meta', 200],
-  ['giygas', 150]
+  ['meta', 250],
+  ['giygas', 200]
 ];
 
 function gameOver(msg) {
@@ -86,8 +86,8 @@ function setsunaNoMikiri() {
   if (enemyCount < enemyData.length-1) {
     document.getElementById(enemyData[enemyCount][0]).style.visibility = 'inherit';
   } else {
-    document.body.style.background = 'url("img/giygas.png")';
     document.querySelector('#text-area').style.color = 'white';
+    document.body.style.background = 'url("img/giygas.png")';
   }
 
   // textArea.innerHTML = '';
@@ -95,8 +95,7 @@ function setsunaNoMikiri() {
   wow.style.visibility = 'hidden';
   wowAppearing = false;
 
-  // 3+1000
-  const delay = Math.random()*1000 * 3+1000; // delay time. change this
+  const delay = Math.random()*1000 * 3+1000; // set .5 for debug
   timerID = setTimeout(showWow, delay);
   const enemyWaitTime = enemyData[enemyCount][1];
   timeOverID = setTimeout(gameOver, delay+enemyWaitTime, 'too slow');
