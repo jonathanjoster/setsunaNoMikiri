@@ -106,6 +106,9 @@ function setsunaNoMikiri() {
       mikitta();
     }
   });
+  document.querySelector('#mega').onclick = () => {
+    mikitta();
+  };
 }
 setTimeout(setsunaNoMikiri, loadingTime);
 
