@@ -107,7 +107,9 @@ function setsunaNoMikiri() {
     }
   });
   document.querySelector('#mega').onclick = () => {
-    mikitta();
+    if (playing) {
+      mikitta();
+    }
   };
 }
 setTimeout(setsunaNoMikiri, loadingTime);
